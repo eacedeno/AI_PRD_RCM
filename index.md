@@ -87,6 +87,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 
 6.1 Data Sources 
 
+
 | **Source Type**                 | **Description**                                                                                    |
 | ------------------------------- | -------------------------------------------------------------------------------------------------- |
 | **Claims Management System**    | Source of structured claims data including CPT, ICD, denial codes, and payer details.              |
@@ -96,7 +97,9 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | **Payer Portals/EDI 835**       | Source of denial codes (CARC), appeal outcomes, and payment statuses.                              |
 
 
+
 6.2 Data Privacy & Compliance 
+
 
 | **Requirement**           | **Description**                                                                                    |
 | ------------------------- | -------------------------------------------------------------------------------------------------- |
