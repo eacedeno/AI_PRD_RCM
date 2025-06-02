@@ -71,7 +71,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 
 
 
-### 5.2. Key Features
+5.2. Key Features
 
 - CPT / ICD-10 Encodings: Raw codes are categorical — embeddings capture relationships (e.g., 99213 is close to 99214). Helps the model generalize better to new but similar codes.
 - Payer Denial History: Historical payer behavior patterns are strong predictors. If Payer A denies 97140 20% of the time, the model needs that prior.
@@ -85,7 +85,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 
 ## 6. Data Requirements
 
-### 6.1 Data Sources 
+6.1 Data Sources 
   | **Source Type**                 | **Description**                                                                                    |
 | ------------------------------- | -------------------------------------------------------------------------------------------------- |
 | **Claims Management System**    | Source of structured claims data including CPT, ICD, denial codes, and payer details.              |
@@ -95,7 +95,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | **Payer Portals/EDI 835**       | Source of denial codes (CARC), appeal outcomes, and payment statuses.                              |
 
 
-### 6.2 Data Privacy & Compliance  
+6.2 Data Privacy & Compliance  
 | **Requirement**           | **Description**                                                                                    |
 | ------------------------- | -------------------------------------------------------------------------------------------------- |
 | **HIPAA Compliance**      | All data ingestion, processing, and storage must comply with HIPAA regulations.                    |
@@ -105,7 +105,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | **Audit Trails**          | Maintain logging and traceability for model inputs and outputs, especially when used in decisions. |
 
 
-### 6.3 Labeling & Annotation  
+6.3 Labeling & Annotation  
 | **Aspect**            | **Description**                                                                                               |
 | --------------------- | ------------------------------------------------------------------------------------------------------------- |
 | **Target Labels**     | `denied`, `denial_reason_code`, `denial_category`, `denial_description`, `resolved_on_appeal`                 |
@@ -113,7 +113,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | **Quality Checks**    | Automated checks for missing or inconsistent CARC codes and invalid label mappings.                           |
 | **Optional Metadata** | Track confidence or appeal outcome to enrich supervised learning and potential reinforcement learning setups. |
 
-### 6.4 Training Dataset Schema
+6.4 Training Dataset Schema
 | **Field Name**          | **Data Type**  | **Description**                                                              |
 | ----------------------- | -------------- | ---------------------------------------------------------------------------- |
 | `claim_id`              | String         | Unique identifier for the claim                                              |
@@ -149,14 +149,14 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 
 ## 7. Functional Requirements
 
-### 7.1 Claim Ingestion and Preprocessing
+7.1 Claim Ingestion and Preprocessing
 | **ID** | **Requirement**                                                             |
 | ------ | --------------------------------------------------------------------------- |
 | FR-1.1 | System must ingest claim data in JSON or CSV format via AWS S3 or Redshift. |
 | FR-1.2 | System must validate schema conformity for each ingested claim record.      |
 | FR-1.3 | System must de-identify or mask any PHI before storage or model use.        |
 
-### 7.2 Denial Prediction Engine
+7.2 Denial Prediction Engine
 | **ID** | **Requirement**                                                                                   |
 | ------ | ------------------------------------------------------------------------------------------------- |
 | FR-2.1 | System must first classify each claim as **denied** or **not denied** (binary).                   |
@@ -165,14 +165,14 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | FR-2.4 | System must provide a **denial category** (e.g., Eligibility, Authorization).                     |
 | FR-2.5 | System must return a **human-readable denial description** (e.g., "Missing prior authorization"). |
 
-### 7.3 Fix Recommendation Engine
+7.3 Fix Recommendation Engine
 | **ID** | **Requirement**                                                                                                                |
 | ------ | ------------------------------------------------------------------------------------------------------------------------------ |
 | FR-3.1 | System must generate **fix suggestions** for claims predicted to be denied.                                                    |
 | FR-3.2 | Fix suggestions must be based on historical resolution patterns and business rules (e.g., missing auth, eligibility mismatch). |
 | FR-3.3 | Fix output must be in plain English, suitable for billing staff and coders.                                                    |
 
-### 7.4 Model Training & Evaluation
+7.4 Model Training & Evaluation
 | **ID** | **Requirement**                                                                            |
 | ------ | ------------------------------------------------------------------------------------------ |
 | FR-4.1 | Model training must be automated using **SageMaker Pipelines**.                            |
@@ -180,7 +180,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | FR-4.3 | System must use **SageMaker Autotune** for hyperparameter optimization.                    |
 | FR-4.4 | Model explainability must be provided using **SageMaker Clarify** (SHAP values).           |
 
-### 7.5 User Interface & Access
+7.5 User Interface & Access
 | **ID** | **Requirement**                                                                                   |
 | ------ | ------------------------------------------------------------------------------------------------- |
 | FR-5.1 | Users (e.g., billing managers, coders) must be able to upload and preview claims via a UI or API. |
@@ -188,7 +188,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | FR-5.3 | UI must show predicted reason, fix suggestions, and confidence score.                             |
 | FR-5.4 | Role-based access control (RBAC) must be enforced for different user types.                       |
 
-### 7.6 Reporting and Analytics
+7.6 Reporting and Analytics
 | **ID** | **Requirement**                                                                  |
 | ------ | -------------------------------------------------------------------------------- |
 | FR-6.1 | System must track and display **overall denial prediction accuracy**.            |
@@ -196,7 +196,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | FR-6.3 | Must support export of predictions and performance metrics to CSV/Excel.         |
 | FR-6.4 | Must provide insights on **common denial causes** and **submission trends**.     |
 
-### 7.7 Audit & Compliance
+7.7 Audit & Compliance
 | **ID** | **Requirement**                                                                        |
 | ------ | -------------------------------------------------------------------------------------- |
 | FR-7.1 | All prediction requests and responses must be logged with timestamp and user ID.       |
@@ -206,28 +206,28 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 
 ## 8. Non-Functional Requirements
 
-### 8.1 Performance
+8.1 Performance
 | **ID**  | **Requirement**                                                                                       |
 | ------- | ----------------------------------------------------------------------------------------------------- |
 | NFR-1.1 | The system must return denial predictions within **2 seconds per claim** for synchronous requests.    |
 | NFR-1.2 | Batch processing throughput must support **10,000+ claims per hour** without performance degradation. |
 | NFR-1.3 | Fix recommendations and SHAP explanations must be generated in **under 5 seconds** per claim.         |
 
-### 8.2 Reliability
+8.2 Reliability
 | **ID**  | **Requirement**                                                                                     |
 | ------- | --------------------------------------------------------------------------------------------------- |
 | NFR-2.1 | The system must maintain **99.9% uptime** for prediction APIs.                                      |
 | NFR-2.2 | Model predictions must be **deterministic** across runs given the same inputs.                      |
 | NFR-2.3 | If the model fails to return a result, the system must log the error and return a fallback message. |
 
-### Scalability
+Scalability
 | **ID**  | **Requirement**                                                                                          |
 | ------- | -------------------------------------------------------------------------------------------------------- |
 | NFR-3.1 | The system must scale horizontally to support increasing claim volume across multiple facilities.        |
 | NFR-3.2 | Infrastructure (e.g., SageMaker endpoints, S3 storage, Redshift clusters) must auto-scale based on load. |
 | NFR-3.3 | Prediction service must support **multi-tenant deployment** for large provider networks.                 |
 
-### Security
+Security
 | **ID**  | **Requirement**                                                                             |
 | ------- | ------------------------------------------------------------------------------------------- |
 | NFR-4.1 | All data in transit and at rest must be encrypted using **AES-256** or higher.              |
@@ -235,7 +235,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | NFR-4.3 | The system must comply with **HIPAA, SOC 2 Type II**, and relevant CMS guidelines.          |
 | NFR-4.4 | No raw PHI (e.g., name, SSN) should be stored or used for training; use hashed identifiers. |
 
-### Ethical Considerations & Bias Mitigation
+Ethical Considerations & Bias Mitigation
 | **ID**  | **Requirement**                                                                                                                       |
 | ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | NFR-5.1 | The model must be evaluated regularly to ensure **no systematic bias** against specific payers, specialties, or patient demographics. |
@@ -244,7 +244,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | NFR-5.4 | A human-in-the-loop process must be maintained for critical decisions (e.g., denial resolution workflows).                            |
 
 ## 9. Success Metrics & KPIs
-### 9.1 Model Performance Metrics
+9.1 Model Performance Metrics
 | **Metric**                        | **Description**                                                                          |
 | --------------------------------- | ---------------------------------------------------------------------------------------- |
 | **Accuracy**                      | % of total predictions (denied vs. not denied) correctly classified.                     |
@@ -255,7 +255,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | **AUC-ROC**                       | Measures the model’s ability to distinguish between classes across thresholds.           |
 | **Model Confidence Distribution** | Average confidence of predictions — helps calibrate thresholds.                          |
 
-### 9.2 Business Impact KPIs
+9.2 Business Impact KPIs
 | **KPI**                   | **Description / Target**                                                        |
 | ------------------------- | ------------------------------------------------------------------------------- |
 | **Denial Rate Reduction** | % decrease in claims denied post-AI intervention (target: 10–30%).              |
@@ -268,7 +268,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | **Revenue Lift**          | Estimated increase in recovered revenue due to reduced preventable denials.     |
 
 ## 10. Assumptions
-### 10.1 User Asssumptions
+10.1 User Asssumptions
 | **Area**         | **Assumption**                                                                                                             |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | User Roles       | Primary users include billing managers, medical coders, RCM analysts, and compliance officers.                             |
@@ -276,7 +276,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | Workflow         | Users have existing workflows for claim review and editing, which this system enhances rather than replaces.               |
 | Decision Process | Users are willing to act on AI-generated predictions and fix suggestions (e.g., edit a claim before submission).           |
 
-### 10.2 Data Assumptions
+10.2 Data Assumptions
 | **Area**          | **Assumption**                                                                                                      |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------- |
 | Data Availability | Historical claims and denial outcomes are available in Redshift and refreshed regularly.                            |
@@ -285,7 +285,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | Label Quality     | Denied claims have accurate CARC codes, denial descriptions, and timestamps.                                        |
 | Documentation     | NLP-derived features (e.g., documentation quality score) can be generated reliably using a pre-processing pipeline. |
 
-### 10.3 Technology and Infrastructure Assumptions
+10.3 Technology and Infrastructure Assumptions
 | **Area**       | **Assumption**                                                                                                 |
 | -------------- | -------------------------------------------------------------------------------------------------------------- |
 | Cloud Platform | Entire system is hosted on **AWS** for managed infrastructure, scalability, and compliance.                    |
@@ -301,7 +301,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 
 ## 11. Dependencies
 
-### 11.1 Team & Organizational Dependencies
+11.1 Team & Organizational Dependencies
 | **Dependency**                    | **Description**                                                                                                 |
 | --------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | **RCM Operations / Billing Team** | Provides feedback on model predictions, adopts fix suggestions, and validates denial outcomes.                  |
@@ -310,7 +310,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | **DevOps / Cloud Infrastructure** | Manages AWS services provisioning, IAM roles, and endpoint security.                                            |
 | **Product & UX Teams**            | Integrate predictions and explanations into end-user tools and workflows (e.g., claim scrubber UI).             |
 
-### 11.2 Technical or System Dependencies
+11.2 Technical or System Dependencies
 | **Dependency**           | **Description**                                                                       |
 | ------------------------ | ------------------------------------------------------------------------------------- |
 | **Amazon Redshift**      | Source of historical claim and denial data for training and evaluation.               |
@@ -320,7 +320,7 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 | **Lambda + API Gateway** | Hosts the real-time prediction API used by external applications.                     |
 | **CloudWatch**           | Monitors model performance, system health, and failure alerts.                        |
 
-### 11.3 Data & Tools Dependencies
+11.3 Data & Tools Dependencies
 | **Dependency**                         | **Description**                                                                                             |
 | -------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | **Eligibility Verification APIs**      | (e.g., Availity, Change Healthcare) — Data required for features like `eligibility_verified`.               |
