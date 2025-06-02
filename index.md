@@ -57,7 +57,8 @@ Predict the likelihood and reason for claim denial before submission, allowing p
 
 ## 5. Solution Description
 
-### 5.1. High-Level Solution
+5.1. High-Level Solution
+
 | **Element**               | **Specification**                                         | **Why This Choice**                                                                                                                                                                                                                          |
 | ------------------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Model Type**            | Multi-class + Binary Classification                       | First, detect whether a claim will be denied (binary), then predict the reason (multi-class). This two-level modeling approach balances precision and explainability.                                                                        |
